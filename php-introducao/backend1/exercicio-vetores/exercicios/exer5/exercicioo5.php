@@ -7,7 +7,7 @@
     3 => "Itapevi",
     4 => "Barueri",
     5 => "Osasco",
-    6 => "Santana de Parnaiva",
+    6 => "Santana de Parnaiba",
     7 => "Carapicuiba",
   ];
  
