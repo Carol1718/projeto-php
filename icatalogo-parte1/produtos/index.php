@@ -14,9 +14,9 @@ require("../database/conexao.php");
 </head>
 
 <body>
-    <header>
-        <input type="search" placeholder="Pesquisar" />
-    </header>
+   <?php
+   include("../componentes/header/header.php")
+   ?>
     <div class="content">
         <section class="produtos-container">
             <header>

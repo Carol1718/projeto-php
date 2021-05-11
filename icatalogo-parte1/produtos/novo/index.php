@@ -28,6 +28,11 @@ $resultado = mysqli_query($conexao, $sql);
         <form class="form-produto" method="POST" action="taskActions.php">
         <input type="hidden" name="acao" value="inserir" />
           <h1>Cadastro de produto</h1>
+          <ul>
+           <li> Isso é um erro</li>
+           <li> Isso é outro erro</li>
+           <li>Isso é mais um erro</li>
+          </ul>
           <div class="input-group span2">
             <label for="descricao">Descrição</label>
             <input name="descricao" type="text" id="descricao" required>
