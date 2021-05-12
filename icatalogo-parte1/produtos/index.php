@@ -19,10 +19,17 @@ require("../database/conexao.php");
    ?>
     <div class="content">
         <section class="produtos-container">
+        <?php
+        //* se existir um usuario na sessão  mostra botão
+        if(isset($_SESSION["usuarioId"])){
+        ?>
             <header>
                 <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
                 <button>Adicionar Categoria</button>
             </header>
+            <?php
+        }
+        ?>
             <main>
                 <article class="card-produto">
                     <figure>
