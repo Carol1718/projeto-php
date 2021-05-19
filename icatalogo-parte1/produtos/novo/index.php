@@ -1,11 +1,14 @@
 <?php
+session_start();
 
-require("../../database/conexao.php");
+//verificar se o usuario não esta logado 
+if (!isset($_SESSION["usuarioId"])) {
+  //declara e coloca erro nas mensagens da session 
+ $_SESSION["mensagens"] ="Acesso negado, voce precis logar.";
+//redirecionar  para listagen de produtos
+ header("location: ../index.php");
 
-$sql = " SELECT * FROM tbl_produto ";
-
-$resultado = mysqli_query($conexao, $sql);
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

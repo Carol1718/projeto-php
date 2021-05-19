@@ -18,6 +18,17 @@ require("../database/conexao.php");
    include("../componentes/header/header.php")
    ?>
     <div class="content">
+     <div style="position:absolute; top: 0; right: 0;">
+      <?php
+      if (isset($_SESSION["mensagem"])) {
+          echo $_SESSION["mensagem"];
+
+          unset($_SESSION["mensagem"]);
+      }
+     ?>
+     
+    
+     </div>
         <section class="produtos-container">
         <?php
         //* se existir um usuario na sessão  mostra botão
