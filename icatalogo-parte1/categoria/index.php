@@ -37,7 +37,6 @@ if(!isset($_SESSION["usuarioId"])) {
             <main>
                 <form class="form-categorias" form method="POST" action="acoes.php">
                     <h1 class="span2">Adicionar Categorias</h1>
-                    
                     <div class="input-group span2">
                     <input type="hidden" name="acao" value="inserir" />
                         <label for="descricao">Descricao</label>
@@ -49,7 +48,7 @@ if(!isset($_SESSION["usuarioId"])) {
                 </form>
     
                 <h1>Lista de categorias</h1>
-                |<?php
+                <?php
                  while ($categoria = mysqli_fetch_array($resultado))  {
                 ?>
                 <div class="card-categorias">

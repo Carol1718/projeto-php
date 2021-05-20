@@ -78,3 +78,14 @@
   border-bottom: 15px solid var(--backgroundPrimary);
   border-top: 15px solid transparent;
 }
+
+.mensagem {
+  position:absolute;
+  top: 65px;
+  right: 5px;
+  padding: 10px;
+
+  background-color: var(--accentPrimary);
+  border: 4px solid var(--overlay);
+  border-radius: 6px;
+}
