@@ -54,6 +54,13 @@
   color: var(--textPrimary);
 }
 
+.card-produto section .preco > em {
+  margin-left: 5px;
+  font-size: 14px;
+  color: green;
+  text-decoration: line-through;
+}
+
 .card-produto section .preco {
   font-size: 26px;
 }
@@ -83,4 +90,16 @@
   margin-top: 16px;
   font-size: 16px;
   color: var(--textSecundary);
+}
+
+.imagem-produto {
+  width: 20px;
+
+  cursor: pointer;
+  transition: 0.2s;
+  left: 200px;
+}
+
+.imagem-produto:hover {
+  transform: scale(1.1);
 }

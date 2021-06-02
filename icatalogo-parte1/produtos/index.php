@@ -1,5 +1,22 @@
 <?php
 require("../database/conexao.php");
+
+$pesquisa = isset($_GET["p"]) ? $_GET["p"] : null;
+
+if($pesquisa){
+    $sql = "SELECT p. *, c.descricao as categoria FROM tbl_produto p
+    INNER JOIN tbl_categoria c ON p.categoria_id = c.id WHERE p.descricao LIKE '%$pesquisa%' 
+    OR c.descricao LIKE '%$pesquisa%'";
+
+
+}else{
+$sql = "SELECT p.*, c.descricao as categoria FROM tbl_produto p
+INNER JOIN tbl_categoria c ON p.categoria_id = c.id
+ORDER BY p.id DESC; ";
+
+}
+$resultado = mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
+
 ?>
 
 <!DOCTYPE html>
@@ -32,150 +49,70 @@ require("../database/conexao.php");
         }
         ?>
             <main>
+                <?php
+                while ($produto = mysqli_fetch_array($resultado)) {
+                 if($produto["desconto"] >0){
+                 $desconto = $produto["desconto"] / 100;
+                 $valor = $produto["valor"] = $desconto * $produto["valor"];
+                 }else{
+                 $valor = $produto["valor"];
+                 }
+
+                 $qtdeParcelas = $valor > 1000 ? 12 : 6;
+
+                 $valorParcela = $valor / $qtdeParcelas;
+
+                 $valorParcela = number_format($valorParcela, 2, ",",".");
+                 ?>
+
+
                 <article class="card-produto">
                     <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
+                        <img src="fotos/<?= $produto["imagem"] ?>" />
                     </figure>
                     <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
+                        
+                        <span class="preco">R$ <?= number_format($produto["valor"], 2, ",",".") ?></span>
+                        <span class="parcelamento">ou em <em><?= $qtdeParcelas ?>x R$<?= $valorParcela ?> sem juros </em> </span>
 
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
+                        <span class="descricao"><?= $produto["descricao"] ?></span>
                         <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
+                            <em><?= $produto["categoria"] ?></em>
+                            <?php 
+                                if(isset($_SESSION["usuarioId"])   ){
+                            ?>
+                            <img class="imagem-produto" onclick="deletar(<?= $produto['id'] ?>)" src="https://icons.veryicon.com/png/o/construction-tools/coca-design/delete-189.png" />
+                            <?php 
+                                }
+                            ?>
                         </span>
                     </section>
                     <footer>
 
                     </footer>
+                    <form id="form-deletar" method="POST" action="./novo/taskActions.php">
+                        <input type="hidden" name="acao" value="deletar"/>
+                        <input id="categoria-id" type="hidden" name="categoriaId" value=""/>
+                    </form>
                 </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-                <article class="card-produto">
-                    <figure>
-                        <img src="http://3.bp.blogspot.com/-u34_1MW1w5g/T_eNqYLmtFI/AAAAAAAAEP0/jnssgMNcS8Y/s1600/converse-all-star-dark-blue.png" />
-                    </figure>
-                    <section>
-                        <span class="preco">R$ 1000,00</span>
-                        <span class="parcelamento">ou em <em>10x R$100,00 sem juros</em></span>
-
-                        <span class="descricao">Produto xyz cor preta novo perfeito estado 100%</span>
-                        <span class="categoria">
-                            <em>Calçados</em> <em>Vestuário</em><em>Calçados</em>
-                        </span>
-                    </section>
-                    <footer>
-
-                    </footer>
-                </article>
-
-
-            </main>
-        </section>
+                <?php
+                }
+                ?>
+               </main>
+               </section>
+               
     </div>
     <footer>
         SENAI 2021 - Todos os direitos reservados
     </footer>
+    <script lang="javascript"> 
+
+    function deletar(categoriaId){
+        document.querySelector("#categoria-id").value = categoriaId;
+
+        document.querySelector("#form-deletar").submit();
+                                }
+    </script>
 </body>
 
 </html>

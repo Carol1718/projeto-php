@@ -15,3 +15,4 @@ create table tbl_produto(
 );
 
 drop table tbl_produto;
+

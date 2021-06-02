@@ -37,13 +37,23 @@ $resultado = mysqli_query($conexao, $sql);
   <div class="content">
     <section class="produtos-container">
       <main>
-        <form class="form-produto" method="POST" action="taskActions.php">
+        <form class="form-produto" method="POST" action="taskActions.php" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="inserir" />
           <h1>Cadastro de produto</h1>
           <ul>
-           <li> Isso é um erro</li>
-           <li> Isso é outro erro</li>
-           <li>Isso é mais um erro</li>
+          <?php
+            //verifica se existe erros na sessão do usuario
+            if(isset($_SESSION['erros'])){
+              $erros = $_SESSION['erros'];
+              foreach ($erros as $erro) {
+          ?>
+            <li><?= $erro ?></li>
+          <?php
+              }
+              //eliminar da sessão os erros ja mostrado
+              unset($_SESSION['erros']);
+            }
+          ?>
           </ul>
           <div class="input-group span2">
             <label for="descricao">Descrição</label>
