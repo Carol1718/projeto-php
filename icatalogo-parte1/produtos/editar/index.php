@@ -12,9 +12,15 @@ if (!isset($_SESSION["usuarioId"])) {
 
 require("../../database/conexao.php");
 
-$sql = " SELECT * FROM tbl_categoria ";
+$produtoId = $_GET["id"];
+$sqlProduto = " SELECT * FROM tbl_produto WHERE id = $produtoId";
+$resultado = mysqli_query($conexao, $sqlProduto);
+$produto = mysqli_fetch_array($resultado);
+ if(!$produto){
+    echo "Produto não encontrado!";
 
-$resultado = mysqli_query($conexao, $sql);
+    exit();
+ }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,8 +29,8 @@ $resultado = mysqli_query($conexao, $sql);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../styles-global.css" />
-  <link rel="stylesheet" href="./novo.css" />
-  <title>Administrar Produtos</title>
+  <link rel="stylesheet" href="./editar.css" />
+  <title>Editar Produtos</title>
 </head>
 
 <body>
@@ -38,7 +44,8 @@ $resultado = mysqli_query($conexao, $sql);
     <section class="produtos-container">
       <main>
         <form class="form-produto" method="POST" action="taskActions.php" enctype="multipart/form-data">
-        <input type="hidden" name="acao" value="inserir" />
+        <input type="hidden" name="acao" value="editar" />
+        <input type="hidden" name="produtoId" value="<?= $produto["id"]?>" />
           <h1>Cadastro de produto</h1>
           <ul>
           <?php
@@ -57,40 +64,40 @@ $resultado = mysqli_query($conexao, $sql);
           </ul>
           <div class="input-group span2">
             <label for="descricao">Descrição</label>
-            <input name="descricao" type="text" id="descricao" required>
+            <input name="descricao" type="text" value="<?=$produto['descricao'] ?>" id="descricao" required>
           </div>
           <div class="input-group">
             <label for="peso">Peso</label>
-            <input name="peso" type="text" id="peso" required>
+            <input name="peso" type="text" value="<?=$produto['peso'] ?>"id="peso" required>
           </div>
           <div class="input-group">
             <label for="quantidade">Quantidade</label>
-            <input name="quantidade" type="text" id="quantidade" required>
+            <input name="quantidade" type="text" value="<?=$produto['quantidade'] ?>"id="quantidade" required>
           </div>
           <div class="input-group">
             <label for="cor">Cor</label>
-            <input name="cor" type="text" id="cor" required>
+            <input name="cor" type="text" value="<?=$produto['cor'] ?>" id="cor" required>
           </div>
           <div class="input-group">
             <label for="tamanho">Tamanho</label>
-            <input name="tamanho" type="text" id="tamanho">
+            <input name="tamanho" type="text" value="<?=$produto['tamanho'] ?>" id="tamanho">
           </div>
           <div class="input-group">
             <label for="valor">Valor</label>
-            <input name="valor" type="text" id="valor" required>
+            <input name="valor" type="text" value="<?=$produto['valor'] ?>"id="valor" required>
           </div>
           <div class="input-group">
             <label for="desconto">Desconto</label>
-            <input name="desconto" type="text" id="desconto">
+            <input name="desconto" type="text" value="<?=$produto['desconto'] ?>" id="desconto">
           </div>
           <div class="input-group">
             <label for="categoria">Categoria</label>
-            <select type="text" name="categoria" id="categoria">
+            <select type="text" name="categoria"  id="categoria">
               <option value="">Selecione</option>
               <?php
               while($categoria = mysqli_fetch_array($resultado)) {
               ?>
-              <option value="<?= $categoria["id"] ?>">
+              <option value="<?= $categoria["id"] ?>" <?= $categoria["id"] == $produto["categoria_id"] ? "selected" : "" ?>>
                <?= $categoria["descricao"] ?>
               </option>
                <?php

@@ -81,6 +81,7 @@ $resultado = mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
                             <?php 
                                 if(isset($_SESSION["usuarioId"])   ){
                             ?>
+                            <img class="imagem-produto" onclick="javascript: window.location = './editar/index.php?id=<?=$produto['id'] ?>'" src="/backend/projeto-php/icatalogo-parte1/imgs/editar-arquivo.png" />
                             <img class="imagem-produto" onclick="deletar(<?= $produto['id'] ?>)" src="https://icons.veryicon.com/png/o/construction-tools/coca-design/delete-189.png" />
                             <?php 
                                 }
@@ -108,10 +109,12 @@ $resultado = mysqli_query($conexao, $sql) or die (mysqli_error($conexao));
     <script lang="javascript"> 
 
     function deletar(categoriaId){
+        if (confirm("Deseja realmente excluir este produto?")) {
         document.querySelector("#categoria-id").value = categoriaId;
 
         document.querySelector("#form-deletar").submit();
-                                }
+         }
+    }
     </script>
 </body>
 
